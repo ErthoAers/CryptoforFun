@@ -42,6 +42,7 @@
 		E9AE93BD2084274A004671B3 /* PKCS7Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */; };
 		E9AE93BF20842E6B004671B3 /* RandomAccessCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */; };
 		E9AE93C120843223004671B3 /* RandomAccessBlockModeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C020843223004671B3 /* RandomAccessBlockModeWorker.swift */; };
+		E9AE93C320843F47004671B3 /* UInt8Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C220843F47004671B3 /* UInt8Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7Padding.swift; sourceTree = "<group>"; };
 		E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessCryptor.swift; sourceTree = "<group>"; };
 		E9AE93C020843223004671B3 /* RandomAccessBlockModeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessBlockModeWorker.swift; sourceTree = "<group>"; };
+		E9AE93C220843F47004671B3 /* UInt8Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 			children = (
 				E9AE93892084240C004671B3 /* ArrayExtension.swift */,
 				E9AE938A2084240C004671B3 /* IntExtension.swift */,
+				E9AE93C220843F47004671B3 /* UInt8Extension.swift */,
 				E9AE938B2084240C004671B3 /* UInt32Extension.swift */,
 				E9AE938C2084240C004671B3 /* UInt64Extension.swift */,
 			);
@@ -355,6 +358,7 @@
 				E9AE939C2084240C004671B3 /* BlockModeOptions.swift in Sources */,
 				E9AE93B720842726004671B3 /* Padding.swift in Sources */,
 				E9AE93BB2084274A004671B3 /* PKCS5.swift in Sources */,
+				E9AE93C320843F47004671B3 /* UInt8Extension.swift in Sources */,
 				E9AE93A32084240C004671B3 /* PCBC.swift in Sources */,
 				E9AE93A92084240C004671B3 /* UInt64Extension.swift in Sources */,
 				E9AE93A42084240C004671B3 /* Cipher.swift in Sources */,
