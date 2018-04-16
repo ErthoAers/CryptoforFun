@@ -34,6 +34,12 @@
 		E9AE93AF2084240C004671B3 /* SecureBytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93932084240C004671B3 /* SecureBytes.swift */; };
 		E9AE93B02084240C004671B3 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93972084240C004671B3 /* Updatable.swift */; };
 		E9AE93B12084240C004671B3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93982084240C004671B3 /* Utils.swift */; };
+		E9AE93B520842726004671B3 /* NoPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93B220842726004671B3 /* NoPadding.swift */; };
+		E9AE93B620842726004671B3 /* ZeroPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93B320842726004671B3 /* ZeroPadding.swift */; };
+		E9AE93B720842726004671B3 /* Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93B420842726004671B3 /* Padding.swift */; };
+		E9AE93BB2084274A004671B3 /* PKCS5.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93B820842749004671B3 /* PKCS5.swift */; };
+		E9AE93BC2084274A004671B3 /* PKCS7.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93B920842749004671B3 /* PKCS7.swift */; };
+		E9AE93BD2084274A004671B3 /* PKCS7Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,12 @@
 		E9AE93932084240C004671B3 /* SecureBytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureBytes.swift; sourceTree = "<group>"; };
 		E9AE93972084240C004671B3 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
 		E9AE93982084240C004671B3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		E9AE93B220842726004671B3 /* NoPadding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoPadding.swift; sourceTree = "<group>"; };
+		E9AE93B320842726004671B3 /* ZeroPadding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZeroPadding.swift; sourceTree = "<group>"; };
+		E9AE93B420842726004671B3 /* Padding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Padding.swift; sourceTree = "<group>"; };
+		E9AE93B820842749004671B3 /* PKCS5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS5.swift; sourceTree = "<group>"; };
+		E9AE93B920842749004671B3 /* PKCS7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7.swift; sourceTree = "<group>"; };
+		E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7Padding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +207,9 @@
 		E9AE93942084240C004671B3 /* Padding */ = {
 			isa = PBXGroup;
 			children = (
+				E9AE93B220842726004671B3 /* NoPadding.swift */,
+				E9AE93B420842726004671B3 /* Padding.swift */,
+				E9AE93B320842726004671B3 /* ZeroPadding.swift */,
 			);
 			path = Padding;
 			sourceTree = "<group>";
@@ -202,16 +217,11 @@
 		E9AE93952084240C004671B3 /* PKCS */ = {
 			isa = PBXGroup;
 			children = (
-				E9AE93962084240C004671B3 /* New Group */,
+				E9AE93B820842749004671B3 /* PKCS5.swift */,
+				E9AE93B920842749004671B3 /* PKCS7.swift */,
+				E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */,
 			);
 			path = PKCS;
-			sourceTree = "<group>";
-		};
-		E9AE93962084240C004671B3 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +337,7 @@
 				E9AE939F2084240C004671B3 /* CFB.swift in Sources */,
 				E9AE93AF2084240C004671B3 /* SecureBytes.swift in Sources */,
 				E9AE93AD2084240C004671B3 /* Bit.swift in Sources */,
+				E9AE93B520842726004671B3 /* NoPadding.swift in Sources */,
 				E9AE93A12084240C004671B3 /* ECB.swift in Sources */,
 				E9AE93A82084240C004671B3 /* UInt32Extension.swift in Sources */,
 				E9AE93B12084240C004671B3 /* Utils.swift in Sources */,
@@ -334,15 +345,20 @@
 				E9AE939E2084240C004671B3 /* CBC.swift in Sources */,
 				E9AE93992084240C004671B3 /* AES.swift in Sources */,
 				E9AE939C2084240C004671B3 /* BlockModeOptions.swift in Sources */,
+				E9AE93B720842726004671B3 /* Padding.swift in Sources */,
+				E9AE93BB2084274A004671B3 /* PKCS5.swift in Sources */,
 				E9AE93A32084240C004671B3 /* PCBC.swift in Sources */,
 				E9AE93A92084240C004671B3 /* UInt64Extension.swift in Sources */,
 				E9AE93A42084240C004671B3 /* Cipher.swift in Sources */,
 				E9AE93B02084240C004671B3 /* Updatable.swift in Sources */,
+				E9AE93B620842726004671B3 /* ZeroPadding.swift in Sources */,
 				E9AE939A2084240C004671B3 /* AESCryptors.swift in Sources */,
+				E9AE93BC2084274A004671B3 /* PKCS7.swift in Sources */,
 				E9AE93A72084240C004671B3 /* IntExtension.swift in Sources */,
 				E9AE93A02084240C004671B3 /* CTR.swift in Sources */,
 				E9AE939D2084240C004671B3 /* BlockModeWorker.swift in Sources */,
 				E9AE93A52084240C004671B3 /* Cryptors.swift in Sources */,
+				E9AE93BD2084274A004671B3 /* PKCS7Padding.swift in Sources */,
 				E9AE93A62084240C004671B3 /* ArrayExtension.swift in Sources */,
 				E9AE93AC2084240C004671B3 /* BatchedCollection.swift in Sources */,
 				E9AE93AE2084240C004671B3 /* RandomBytesSequence.swift in Sources */,
