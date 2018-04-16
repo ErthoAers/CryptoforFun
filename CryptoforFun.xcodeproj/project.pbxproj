@@ -131,7 +131,7 @@
 		E9AE9361208423CE004671B3 /* CryptoforFun */ = {
 			isa = PBXGroup;
 			children = (
-				E9AE93792084240C004671B3 /* CryptoLearning */,
+				E9AE93792084240C004671B3 /* CryptoLib */,
 				E9AE9362208423CE004671B3 /* CryptoforFun.h */,
 				E9AE9363208423CE004671B3 /* Info.plist */,
 			);
@@ -147,7 +147,7 @@
 			path = CryptoforFunTests;
 			sourceTree = "<group>";
 		};
-		E9AE93792084240C004671B3 /* CryptoLearning */ = {
+		E9AE93792084240C004671B3 /* CryptoLib */ = {
 			isa = PBXGroup;
 			children = (
 				E9AE93952084240C004671B3 /* PKCS */,
@@ -163,7 +163,7 @@
 				E9AE93972084240C004671B3 /* Updatable.swift */,
 				E9AE93982084240C004671B3 /* Utils.swift */,
 			);
-			path = CryptoLearning;
+			path = CryptoLib;
 			sourceTree = "<group>";
 		};
 		E9AE937C2084240C004671B3 /* BlockMode */ = {
