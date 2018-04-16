@@ -17,3 +17,15 @@ func arrayOfBytes<T: FixedWidthInteger>(value: T, length totalBytes: Int = Memor
     valuePointer.deallocate(capacity: 1)
     return bytes
 }
+
+@_specialize(exported: true, where T == UInt8)
+func integerFrom<T: FixedWidthInteger>(_ bits: Array<Bit>) -> T {
+    var bitPattern: T = 0
+    for idx in bits.indices {
+        if bits[idx] == Bit.one {
+            let bit = T(Uint64(1) << UInt64(idx))
+            bitPattern = bitPattern | bit
+        }
+    }
+    return bitPattern
+}
