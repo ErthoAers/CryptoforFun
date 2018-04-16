@@ -23,7 +23,7 @@ func integerFrom<T: FixedWidthInteger>(_ bits: Array<Bit>) -> T {
     var bitPattern: T = 0
     for idx in bits.indices {
         if bits[idx] == Bit.one {
-            let bit = T(Uint64(1) << UInt64(idx))
+            let bit = T(UInt64(1) << UInt64(idx))
             bitPattern = bitPattern | bit
         }
     }
