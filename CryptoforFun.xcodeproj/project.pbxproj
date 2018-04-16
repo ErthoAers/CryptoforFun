@@ -10,6 +10,30 @@
 		E9AE9369208423CF004671B3 /* CryptoforFun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AE935F208423CE004671B3 /* CryptoforFun.framework */; };
 		E9AE936E208423CF004671B3 /* CryptoforFunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE936D208423CF004671B3 /* CryptoforFunTests.swift */; };
 		E9AE9370208423CF004671B3 /* CryptoforFun.h in Headers */ = {isa = PBXBuildFile; fileRef = E9AE9362208423CE004671B3 /* CryptoforFun.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9AE93992084240C004671B3 /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE937A2084240C004671B3 /* AES.swift */; };
+		E9AE939A2084240C004671B3 /* AESCryptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE937B2084240C004671B3 /* AESCryptors.swift */; };
+		E9AE939B2084240C004671B3 /* BlockMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE937D2084240C004671B3 /* BlockMode.swift */; };
+		E9AE939C2084240C004671B3 /* BlockModeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE937E2084240C004671B3 /* BlockModeOptions.swift */; };
+		E9AE939D2084240C004671B3 /* BlockModeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE937F2084240C004671B3 /* BlockModeWorker.swift */; };
+		E9AE939E2084240C004671B3 /* CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93802084240C004671B3 /* CBC.swift */; };
+		E9AE939F2084240C004671B3 /* CFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93812084240C004671B3 /* CFB.swift */; };
+		E9AE93A02084240C004671B3 /* CTR.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93822084240C004671B3 /* CTR.swift */; };
+		E9AE93A12084240C004671B3 /* ECB.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93832084240C004671B3 /* ECB.swift */; };
+		E9AE93A22084240C004671B3 /* OFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93842084240C004671B3 /* OFB.swift */; };
+		E9AE93A32084240C004671B3 /* PCBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93852084240C004671B3 /* PCBC.swift */; };
+		E9AE93A42084240C004671B3 /* Cipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93862084240C004671B3 /* Cipher.swift */; };
+		E9AE93A52084240C004671B3 /* Cryptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93872084240C004671B3 /* Cryptors.swift */; };
+		E9AE93A62084240C004671B3 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93892084240C004671B3 /* ArrayExtension.swift */; };
+		E9AE93A72084240C004671B3 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE938A2084240C004671B3 /* IntExtension.swift */; };
+		E9AE93A82084240C004671B3 /* UInt32Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE938B2084240C004671B3 /* UInt32Extension.swift */; };
+		E9AE93A92084240C004671B3 /* UInt64Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE938C2084240C004671B3 /* UInt64Extension.swift */; };
+		E9AE93AA2084240C004671B3 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE938D2084240C004671B3 /* Generics.swift */; };
+		E9AE93AC2084240C004671B3 /* BatchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93902084240C004671B3 /* BatchedCollection.swift */; };
+		E9AE93AD2084240C004671B3 /* Bit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93912084240C004671B3 /* Bit.swift */; };
+		E9AE93AE2084240C004671B3 /* RandomBytesSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93922084240C004671B3 /* RandomBytesSequence.swift */; };
+		E9AE93AF2084240C004671B3 /* SecureBytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93932084240C004671B3 /* SecureBytes.swift */; };
+		E9AE93B02084240C004671B3 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93972084240C004671B3 /* Updatable.swift */; };
+		E9AE93B12084240C004671B3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93982084240C004671B3 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +53,30 @@
 		E9AE9368208423CE004671B3 /* CryptoforFunTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoforFunTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AE936D208423CF004671B3 /* CryptoforFunTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoforFunTests.swift; sourceTree = "<group>"; };
 		E9AE936F208423CF004671B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9AE937A2084240C004671B3 /* AES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES.swift; sourceTree = "<group>"; };
+		E9AE937B2084240C004671B3 /* AESCryptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AESCryptors.swift; sourceTree = "<group>"; };
+		E9AE937D2084240C004671B3 /* BlockMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockMode.swift; sourceTree = "<group>"; };
+		E9AE937E2084240C004671B3 /* BlockModeOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModeOptions.swift; sourceTree = "<group>"; };
+		E9AE937F2084240C004671B3 /* BlockModeWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModeWorker.swift; sourceTree = "<group>"; };
+		E9AE93802084240C004671B3 /* CBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBC.swift; sourceTree = "<group>"; };
+		E9AE93812084240C004671B3 /* CFB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFB.swift; sourceTree = "<group>"; };
+		E9AE93822084240C004671B3 /* CTR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTR.swift; sourceTree = "<group>"; };
+		E9AE93832084240C004671B3 /* ECB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECB.swift; sourceTree = "<group>"; };
+		E9AE93842084240C004671B3 /* OFB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OFB.swift; sourceTree = "<group>"; };
+		E9AE93852084240C004671B3 /* PCBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCBC.swift; sourceTree = "<group>"; };
+		E9AE93862084240C004671B3 /* Cipher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cipher.swift; sourceTree = "<group>"; };
+		E9AE93872084240C004671B3 /* Cryptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cryptors.swift; sourceTree = "<group>"; };
+		E9AE93892084240C004671B3 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		E9AE938A2084240C004671B3 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		E9AE938B2084240C004671B3 /* UInt32Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt32Extension.swift; sourceTree = "<group>"; };
+		E9AE938C2084240C004671B3 /* UInt64Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt64Extension.swift; sourceTree = "<group>"; };
+		E9AE938D2084240C004671B3 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
+		E9AE93902084240C004671B3 /* BatchedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchedCollection.swift; sourceTree = "<group>"; };
+		E9AE93912084240C004671B3 /* Bit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bit.swift; sourceTree = "<group>"; };
+		E9AE93922084240C004671B3 /* RandomBytesSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomBytesSequence.swift; sourceTree = "<group>"; };
+		E9AE93932084240C004671B3 /* SecureBytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureBytes.swift; sourceTree = "<group>"; };
+		E9AE93972084240C004671B3 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		E9AE93982084240C004671B3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +119,7 @@
 		E9AE9361208423CE004671B3 /* CryptoforFun */ = {
 			isa = PBXGroup;
 			children = (
+				E9AE93792084240C004671B3 /* CryptoLearning */,
 				E9AE9362208423CE004671B3 /* CryptoforFun.h */,
 				E9AE9363208423CE004671B3 /* Info.plist */,
 			);
@@ -84,6 +133,85 @@
 				E9AE936F208423CF004671B3 /* Info.plist */,
 			);
 			path = CryptoforFunTests;
+			sourceTree = "<group>";
+		};
+		E9AE93792084240C004671B3 /* CryptoLearning */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE93952084240C004671B3 /* PKCS */,
+				E9AE93882084240C004671B3 /* ExtensionTypes */,
+				E9AE938F2084240C004671B3 /* NewTypes */,
+				E9AE937C2084240C004671B3 /* BlockMode */,
+				E9AE93942084240C004671B3 /* Padding */,
+				E9AE937A2084240C004671B3 /* AES.swift */,
+				E9AE937B2084240C004671B3 /* AESCryptors.swift */,
+				E9AE93862084240C004671B3 /* Cipher.swift */,
+				E9AE93872084240C004671B3 /* Cryptors.swift */,
+				E9AE938D2084240C004671B3 /* Generics.swift */,
+				E9AE93972084240C004671B3 /* Updatable.swift */,
+				E9AE93982084240C004671B3 /* Utils.swift */,
+			);
+			path = CryptoLearning;
+			sourceTree = "<group>";
+		};
+		E9AE937C2084240C004671B3 /* BlockMode */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE937D2084240C004671B3 /* BlockMode.swift */,
+				E9AE937E2084240C004671B3 /* BlockModeOptions.swift */,
+				E9AE937F2084240C004671B3 /* BlockModeWorker.swift */,
+				E9AE93802084240C004671B3 /* CBC.swift */,
+				E9AE93812084240C004671B3 /* CFB.swift */,
+				E9AE93822084240C004671B3 /* CTR.swift */,
+				E9AE93832084240C004671B3 /* ECB.swift */,
+				E9AE93842084240C004671B3 /* OFB.swift */,
+				E9AE93852084240C004671B3 /* PCBC.swift */,
+			);
+			path = BlockMode;
+			sourceTree = "<group>";
+		};
+		E9AE93882084240C004671B3 /* ExtensionTypes */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE93892084240C004671B3 /* ArrayExtension.swift */,
+				E9AE938A2084240C004671B3 /* IntExtension.swift */,
+				E9AE938B2084240C004671B3 /* UInt32Extension.swift */,
+				E9AE938C2084240C004671B3 /* UInt64Extension.swift */,
+			);
+			path = ExtensionTypes;
+			sourceTree = "<group>";
+		};
+		E9AE938F2084240C004671B3 /* NewTypes */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE93902084240C004671B3 /* BatchedCollection.swift */,
+				E9AE93912084240C004671B3 /* Bit.swift */,
+				E9AE93922084240C004671B3 /* RandomBytesSequence.swift */,
+				E9AE93932084240C004671B3 /* SecureBytes.swift */,
+			);
+			path = NewTypes;
+			sourceTree = "<group>";
+		};
+		E9AE93942084240C004671B3 /* Padding */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Padding;
+			sourceTree = "<group>";
+		};
+		E9AE93952084240C004671B3 /* PKCS */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE93962084240C004671B3 /* New Group */,
+			);
+			path = PKCS;
+			sourceTree = "<group>";
+		};
+		E9AE93962084240C004671B3 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +324,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9AE939F2084240C004671B3 /* CFB.swift in Sources */,
+				E9AE93AF2084240C004671B3 /* SecureBytes.swift in Sources */,
+				E9AE93AD2084240C004671B3 /* Bit.swift in Sources */,
+				E9AE93A12084240C004671B3 /* ECB.swift in Sources */,
+				E9AE93A82084240C004671B3 /* UInt32Extension.swift in Sources */,
+				E9AE93B12084240C004671B3 /* Utils.swift in Sources */,
+				E9AE93AA2084240C004671B3 /* Generics.swift in Sources */,
+				E9AE939E2084240C004671B3 /* CBC.swift in Sources */,
+				E9AE93992084240C004671B3 /* AES.swift in Sources */,
+				E9AE939C2084240C004671B3 /* BlockModeOptions.swift in Sources */,
+				E9AE93A32084240C004671B3 /* PCBC.swift in Sources */,
+				E9AE93A92084240C004671B3 /* UInt64Extension.swift in Sources */,
+				E9AE93A42084240C004671B3 /* Cipher.swift in Sources */,
+				E9AE93B02084240C004671B3 /* Updatable.swift in Sources */,
+				E9AE939A2084240C004671B3 /* AESCryptors.swift in Sources */,
+				E9AE93A72084240C004671B3 /* IntExtension.swift in Sources */,
+				E9AE93A02084240C004671B3 /* CTR.swift in Sources */,
+				E9AE939D2084240C004671B3 /* BlockModeWorker.swift in Sources */,
+				E9AE93A52084240C004671B3 /* Cryptors.swift in Sources */,
+				E9AE93A62084240C004671B3 /* ArrayExtension.swift in Sources */,
+				E9AE93AC2084240C004671B3 /* BatchedCollection.swift in Sources */,
+				E9AE93AE2084240C004671B3 /* RandomBytesSequence.swift in Sources */,
+				E9AE939B2084240C004671B3 /* BlockMode.swift in Sources */,
+				E9AE93A22084240C004671B3 /* OFB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +529,7 @@
 		E9AE9377208423CF004671B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AC2CZW9UF4;
@@ -391,6 +544,7 @@
 		E9AE9378208423CF004671B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AC2CZW9UF4;
