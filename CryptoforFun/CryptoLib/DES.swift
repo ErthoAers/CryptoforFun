@@ -1,5 +1,9 @@
 
 public final class DES {
+    public enum Error : Swift.Error {
+        case dataPaddingRequired, invalidData
+    }
+    
     private static let IP: Array<UInt8> = [
         57, 49, 41, 33, 25, 17,  9,  1,
         59, 51, 43, 35, 27, 19, 11,  3,
@@ -239,12 +243,57 @@ public final class DES {
     }
     
     internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) && block.count != DES.blockSize { return Array(block) }
+        
         return crypt(block: block, options: .encrypt)
     }
     
     internal func decrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) && block.count != DES.blockSize { return Array(block) }
+        
         return crypt(block: block, options: .decrypt)
     }
 }
+
+extension DES : Cipher {
+    public func encrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
+        let chunks = bytes.batched(by: DES.blockSize)
+        
+        var oneTimeCryptor = try makeEncrypter()
+        var out = Array<UInt8>(reserveCapacity: bytes.count)
+        for chunk in chunks {
+            out += try oneTimeCryptor.update(withBytes: chunk, isLast: false)
+        }
+        out += try oneTimeCryptor.finish()
+        
+        if blockMode.options.contains(.paddingRequired) {
+            throw Error.dataPaddingRequired
+        }
+        return out
+    }
+    
+    public func decrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) {
+            throw Error.dataPaddingRequired
+        }
+        
+        var oneTimeCryptor = try makeDecryptor()
+        let chunks = bytes.batched(by: DES.blockSize)
+        if chunks.isEmpty {
+            throw Error.invalidData
+        }
+        
+        var out = Array<UInt8>(reserveCapacity: bytes.count)
+        var lastIdx = chunks.startIndex
+        chunks.indices.formIndex(&lastIdx, offsetBy: chunks.count - 1)
+        for idx in chunks.indices {
+            out += try oneTimeCryptor.update(withBytes: chunks[idx], isLast: idx == lastIdx)
+        }
+        
+        return out
+    }
+}
+
+
 
 
