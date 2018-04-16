@@ -19,6 +19,7 @@ func arrayOfBytes<T: FixedWidthInteger>(value: T, length totalBytes: Int = Memor
 }
 
 @_specialize(exported: true, where T == UInt8)
+@_specialize(exported: true, where T == UInt64)
 func integerFrom<T: FixedWidthInteger>(_ bits: Array<Bit>) -> T {
     var bitPattern: T = 0
     for idx in bits.indices {

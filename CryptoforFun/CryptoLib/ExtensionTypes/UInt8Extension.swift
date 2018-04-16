@@ -11,7 +11,7 @@ extension UInt8 {
         var bitsArray = Array<Bit>(repeating: Bit.zero, count: totalBitsCount)
         
         for j in 0..<totalBitsCount {
-            let bitVal: UInt8 = 1 << UInt8(totalBitsCount)
+            let bitVal: UInt8 = 1 << UInt8(totalBitsCount - 1 - j)
             let check = self & bitVal
             
             if check != 0 {

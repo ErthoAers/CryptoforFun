@@ -1,5 +1,9 @@
 
 extension UInt64 {
+    init(bits: Array<Bit>) {
+        self = integerFrom(bits)
+    }
+    
     @_specialize(exported: true, where T == ArraySlice<UInt8>)
     init<T: Collection>(bytes: T) where T.Element == UInt8, T.Index == Int {
         self = UInt64(bytes: bytes, fromIndex: bytes.startIndex)
@@ -23,5 +27,20 @@ extension UInt64 {
         let val7 = count > 0 ? UInt64(bytes[index.advanced(by: 7)]) : 0
         
         self = val0 | val1 | val2 | val3 | val4 | val5 | val6 | val7
+    }
+    
+    public func bits() -> Array<Bit> {
+        let totalBitsCount = MemoryLayout<UInt64>.size * 8
+        var bitsArray = Array<Bit>(repeating: Bit.zero, count: totalBitsCount)
+        
+        for j in 0..<totalBitsCount {
+            let bitVal: UInt64 = 1 << UInt64(totalBitsCount - 1 - j)
+            let check = self & bitVal
+            
+            if check != 0 {
+                bitsArray[j] = Bit.one
+            }
+        }
+        return bitsArray
     }
 }
