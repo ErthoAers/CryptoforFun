@@ -45,6 +45,7 @@
 		E9AE93C320843F47004671B3 /* UInt8Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C220843F47004671B3 /* UInt8Extension.swift */; };
 		E9AE93C5208448F9004671B3 /* UInt16Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C4208448F9004671B3 /* UInt16Extension.swift */; };
 		E9AE93C720844D75004671B3 /* DES.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C620844D75004671B3 /* DES.swift */; };
+		E9AE93C92084EA13004671B3 /* DESCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C82084EA13004671B3 /* DESCryptor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		E9AE93C220843F47004671B3 /* UInt8Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8Extension.swift; sourceTree = "<group>"; };
 		E9AE93C4208448F9004671B3 /* UInt16Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt16Extension.swift; sourceTree = "<group>"; };
 		E9AE93C620844D75004671B3 /* DES.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DES.swift; sourceTree = "<group>"; };
+		E9AE93C82084EA13004671B3 /* DESCryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DESCryptor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				E9AE937A2084240C004671B3 /* AES.swift */,
 				E9AE937B2084240C004671B3 /* AESCryptors.swift */,
 				E9AE93C620844D75004671B3 /* DES.swift */,
+				E9AE93C82084EA13004671B3 /* DESCryptor.swift */,
 				E9AE93862084240C004671B3 /* Cipher.swift */,
 				E9AE93872084240C004671B3 /* Cryptors.swift */,
 				E9AE938D2084240C004671B3 /* Generics.swift */,
@@ -351,6 +354,7 @@
 			files = (
 				E9AE939F2084240C004671B3 /* CFB.swift in Sources */,
 				E9AE93AF2084240C004671B3 /* SecureBytes.swift in Sources */,
+				E9AE93C92084EA13004671B3 /* DESCryptor.swift in Sources */,
 				E9AE93AD2084240C004671B3 /* Bit.swift in Sources */,
 				E9AE93B520842726004671B3 /* NoPadding.swift in Sources */,
 				E9AE93BF20842E6B004671B3 /* RandomAccessCryptor.swift in Sources */,

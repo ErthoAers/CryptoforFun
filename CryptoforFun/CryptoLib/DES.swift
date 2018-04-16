@@ -21,14 +21,14 @@ public final class DES {
         32,  0, 40,  8, 48, 16, 56, 24
     ]
     private static let PC1: Array<UInt8> = [
-        56, 48, 40, 32, 24, 16,  8,  7,
-         0, 57, 49, 41, 33, 25, 17, 15,
-         9,  1, 58, 50, 42, 34, 26, 23,
-        18, 10,  2, 59, 51, 43, 35, 31,
-        62, 54, 46, 38, 30, 22, 14, 39,
-         6, 61, 53, 45, 37, 29, 21, 47,
-        13,  5, 60, 52, 44, 36, 28, 55,
-        20, 12,  4, 27, 19, 11,  3, 63
+        57, 49, 41, 33, 25, 17,  9,
+         1, 58, 50, 42, 34, 26, 18,
+        10,  2, 59, 51, 43, 35, 27,
+        19, 11,  3, 60, 52, 44, 36,
+        63, 55, 47, 39, 31, 23, 15,
+         7, 62, 54, 46, 38, 30, 22,
+        14,  6, 61, 53, 45, 37, 29,
+        21, 13,  5, 28, 20, 12,  4
     ]
     private static let PC2: Array<UInt8> = [
         14, 17, 11, 24,  1,  5,
@@ -130,6 +130,10 @@ public final class DES {
         22, 11,  4, 25
     ]
     
+    private enum options {
+        case encrypt, decrypt
+    }
+    
     public let keySize: Int
     public static let blockSize: Int = 8
     
@@ -151,7 +155,7 @@ public final class DES {
         self.padding = padding
     }
     
-    internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+    private func crypt(block: ArraySlice<UInt8>, options: options) -> Array<UInt8> {
         let binData = UInt64(bytes: Array(block)).bits()
         let IPData = UInt64(bits: binData
             .enumerated().map { (idx, _) in binData[Int(DES.IP[idx])] }.reversed()
@@ -159,13 +163,12 @@ public final class DES {
         var L = UInt32((IPData & L64Mask) >> 32)
         var R = UInt32(IPData & L64Mask)
         
-        let binKey = UInt64(bytes: key.bytes).bits()
-        let exchangeKey = UInt64(bits:
-            binKey
-            .enumerated().map { (idx, _) in binKey[Int(DES.PC1[idx])] }
-            .enumerated().filter { (idx, _) in idx % 8 != 7 }
-            .map { (_, element) in element }.reversed()
-        )
+        let binKey = UInt64(bytes: key.bytes)
+        var exchangeKey: UInt64 = 0
+        for i in 0..<56 {
+            exchangeKey <<= 1
+            exchangeKey |= (binKey >> (64 - DES.PC1[i])) & LB64Mask
+        }
         var C = UInt32((exchangeKey >> 28) & 0x000000000fffffff)
         var D = UInt32(exchangeKey & 0x000000000fffffff)
         
@@ -200,7 +203,8 @@ public final class DES {
                 sInput |= UInt64((R >> (32 - DES.E[j])) & LB32Mask)
             }
             
-            sInput ^= subKey[i]
+            let index = (options == .encrypt) ? i : 15 - i
+            sInput ^= subKey[index]
             for j in 0..<8 {
                 // 00 00 RCCC CR00 00 00 00 00 00 sInput
                 // 00 00 1000 0100 00 00 00 00 00 row mask
@@ -233,4 +237,14 @@ public final class DES {
         let encrypted: Array<UInt8> = FPData.bytes()
         return encrypted
     }
+    
+    internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        return crypt(block: block, options: .encrypt)
+    }
+    
+    internal func decrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        return crypt(block: block, options: .decrypt)
+    }
 }
+
+
