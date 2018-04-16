@@ -43,6 +43,7 @@
 		E9AE93BF20842E6B004671B3 /* RandomAccessCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */; };
 		E9AE93C120843223004671B3 /* RandomAccessBlockModeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C020843223004671B3 /* RandomAccessBlockModeWorker.swift */; };
 		E9AE93C320843F47004671B3 /* UInt8Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C220843F47004671B3 /* UInt8Extension.swift */; };
+		E9AE93C5208448F9004671B3 /* UInt16Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE93C4208448F9004671B3 /* UInt16Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessCryptor.swift; sourceTree = "<group>"; };
 		E9AE93C020843223004671B3 /* RandomAccessBlockModeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessBlockModeWorker.swift; sourceTree = "<group>"; };
 		E9AE93C220843F47004671B3 /* UInt8Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8Extension.swift; sourceTree = "<group>"; };
+		E9AE93C4208448F9004671B3 /* UInt16Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt16Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				E9AE93892084240C004671B3 /* ArrayExtension.swift */,
 				E9AE938A2084240C004671B3 /* IntExtension.swift */,
 				E9AE93C220843F47004671B3 /* UInt8Extension.swift */,
+				E9AE93C4208448F9004671B3 /* UInt16Extension.swift */,
 				E9AE938B2084240C004671B3 /* UInt32Extension.swift */,
 				E9AE938C2084240C004671B3 /* UInt64Extension.swift */,
 			);
@@ -353,6 +356,7 @@
 				E9AE93B12084240C004671B3 /* Utils.swift in Sources */,
 				E9AE93AA2084240C004671B3 /* Generics.swift in Sources */,
 				E9AE939E2084240C004671B3 /* CBC.swift in Sources */,
+				E9AE93C5208448F9004671B3 /* UInt16Extension.swift in Sources */,
 				E9AE93992084240C004671B3 /* AES.swift in Sources */,
 				E9AE93C120843223004671B3 /* RandomAccessBlockModeWorker.swift in Sources */,
 				E9AE939C2084240C004671B3 /* BlockModeOptions.swift in Sources */,
