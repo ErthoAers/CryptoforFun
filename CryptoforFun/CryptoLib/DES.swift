@@ -227,10 +227,8 @@ public final class DES {
                 FFunctionRes <<= 1
                 FFunctionRes |= (sOutput >> (32 - DES.P[j])) & LB32Mask
             }
-            
-            let tmp = R
-            R = L ^ FFunctionRes
-            L = tmp
+
+            (L, R) = (R, L ^ FFunctionRes)
         }
         
         let outData = UInt64((UInt64(R) << 32) | UInt64(L)).bits()
