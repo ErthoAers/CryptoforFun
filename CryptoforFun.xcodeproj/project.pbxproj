@@ -109,6 +109,7 @@
 		E9AE93CD20858AA6004671B3 /* MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MD5.swift; sourceTree = "<group>"; };
 		E9AE9437208594C7004671B3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E9AE943920859546004671B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
+		E9AE94B82085C361004671B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +134,7 @@
 		E9AE9355208423CE004671B3 = {
 			isa = PBXGroup;
 			children = (
+				E9AE94B82085C361004671B3 /* README.md */,
 				E9AE9361208423CE004671B3 /* CryptoforFun */,
 				E9AE936C208423CF004671B3 /* CryptoforFunTests */,
 				E9AE9360208423CE004671B3 /* Products */,
