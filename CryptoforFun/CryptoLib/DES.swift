@@ -5,24 +5,24 @@ public final class DES {
     }
     
     private static let IP: Array<UInt8> = [
-        57, 49, 41, 33, 25, 17,  9,  1,
-        59, 51, 43, 35, 27, 19, 11,  3,
-        61, 53, 44, 37, 29, 21, 13,  5,
-        63, 55, 45, 39, 31, 23, 15,  7,
-        56, 48, 40, 32, 24, 16,  8,  0,
         58, 50, 42, 34, 26, 18, 10,  2,
         60, 52, 44, 36, 28, 20, 12,  4,
-        62, 54, 46, 38, 30, 22, 14,  6
+        62, 54, 46, 38, 30, 22, 14,  6,
+        64, 56, 48, 40, 32, 24, 16,  8,
+        57, 49, 41, 33, 25, 17,  9,  1,
+        59, 51, 43, 35, 27, 19, 11,  3,
+        61, 53, 45, 37, 29, 21, 13,  5,
+        63, 55, 47, 39, 31, 23, 15,  7
     ]
     private static let FP: Array<UInt8> = [
+        40,  8, 48, 16, 56, 24, 64, 32,
         39,  7, 47, 15, 55, 23, 63, 31,
         38,  6, 46, 14, 54, 22, 62, 30,
         37,  5, 45, 13, 53, 21, 61, 29,
         36,  4, 44, 12, 52, 20, 60, 28,
         35,  3, 43, 11, 51, 19, 59, 27,
         34,  2, 42, 10, 50, 18, 58, 26,
-        33,  1, 41,  9, 49, 17, 57, 25,
-        32,  0, 40,  8, 48, 16, 56, 24
+        33,  1, 41,  9, 49, 17, 57, 25
     ]
     private static let PC1: Array<UInt8> = [
         57, 49, 41, 33, 25, 17,  9,
@@ -152,7 +152,7 @@ public final class DES {
     private let LB32Mask: UInt32 = 0x00000001
     private let LB64Mask: UInt64 = 0x0000000000000001
     
-    public init(key: Array<UInt8>, blockMode: BlockMode, padding: Padding = .pkcs7) {
+    public init(key: Array<UInt8>, blockMode: BlockMode, padding: Padding = .pkcs7) throws {
         self.key = Key(bytes: key)
         self.keySize = self.key.count
         self.blockMode = blockMode
@@ -160,11 +160,14 @@ public final class DES {
     }
     
     private func crypt(block: ArraySlice<UInt8>, options: options) -> Array<UInt8> {
-        let binData = UInt64(bytes: Array(block)).bits()
-        let IPData = UInt64(bits: binData
-            .enumerated().map { (idx, _) in binData[Int(DES.IP[idx])] }.reversed()
-        )
-        var L = UInt32((IPData & L64Mask) >> 32)
+        let binData = UInt64(bytes: Array(block))
+        var IPData: UInt64 = 0
+        for i in 0..<64 {
+            IPData <<= 1
+            IPData |= (binData >> (64 - DES.IP[i])) & LB64Mask
+        }
+        
+        var L = UInt32((IPData >> 32) & L64Mask)
         var R = UInt32(IPData & L64Mask)
         
         let binKey = UInt64(bytes: key.bytes)
@@ -185,8 +188,8 @@ public final class DES {
         
         for i in 0..<Nr {
             for _ in 0..<DES.iterationShift[i] {
-                C = 0x0fffffff & (C << 1) | 0x00000001 & (C >> 27)
-                D = 0x0fffffff & (D << 1) | 0x00000001 & (D >> 27)
+                C = (0x0fffffff & (C << 1)) | (0x00000001 & (C >> 27))
+                D = (0x0fffffff & (D << 1)) | (0x00000001 & (D >> 27))
             }
             
             let permutedChoice: UInt64 = UInt64(C) << 28 | UInt64(D)
@@ -231,10 +234,12 @@ public final class DES {
             (L, R) = (R, L ^ FFunctionRes)
         }
         
-        let outData = UInt64((UInt64(R) << 32) | UInt64(L)).bits()
-        let FPData = UInt64(bits: outData
-            .enumerated().map { (idx, _) in outData[Int(DES.FP[idx])] }.reversed()
-        )
+        let outData = UInt64((UInt64(R) << 32) | UInt64(L))
+        var FPData: UInt64 = 0
+        for i in 0..<64 {
+            FPData <<= 1
+            FPData |= (outData >> (64 - DES.FP[i])) & LB64Mask
+        }
         
         let encrypted: Array<UInt8> = FPData.bytes()
         return encrypted
@@ -264,14 +269,14 @@ extension DES : Cipher {
         }
         out += try oneTimeCryptor.finish()
         
-        if blockMode.options.contains(.paddingRequired) {
+        if blockMode.options.contains(.paddingRequired) && (out.count % DES.blockSize != 0) {
             throw Error.dataPaddingRequired
         }
         return out
     }
     
     public func decrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
-        if blockMode.options.contains(.paddingRequired) {
+        if blockMode.options.contains(.paddingRequired) && (bytes.count % DES.blockSize != 0) {
             throw Error.dataPaddingRequired
         }
         
@@ -292,6 +297,10 @@ extension DES : Cipher {
     }
 }
 
-
+extension DES {
+    public convenience init(key: String, iv: String, padding: Padding = .pkcs7) throws {
+        try self.init(key: key.bytes, blockMode: .CBC(iv: iv.bytes), padding: padding)
+    }
+}
 
 
