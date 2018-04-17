@@ -411,14 +411,14 @@ extension AES : Cipher {
         }
         out += try oneTimeCryptor.finish()
         
-        if blockMode.options.contains(.paddingRequired) {
+        if blockMode.options.contains(.paddingRequired) && (out.count % AES.blockSize != 0) {
             throw Error.dataPaddingRequired
         }
         return out
     }
     
     public func decrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
-        if blockMode.options.contains(.paddingRequired) {
+        if blockMode.options.contains(.paddingRequired) && (bytes.count % AES.blockSize != 0) {
             throw Error.dataPaddingRequired
         }
         
@@ -439,3 +439,8 @@ extension AES : Cipher {
     }
 }
 
+extension AES {
+    public convenience init(key: String, iv: String, padding: Padding = .pkcs7) throws {
+        try self.init(key: key.bytes, blockMode: .CBC(iv: iv.bytes), padding: padding)
+    }
+}
