@@ -388,6 +388,10 @@ private extension Twofish {
 
 extension Twofish {
     internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) && block.count != Twofish.blockSize {
+            return Array(block)
+        }
+        
         //Input Whitening
         let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
         var b0 = B[0] ^ expandedKey[0]
@@ -426,6 +430,10 @@ extension Twofish {
     }
     
     internal func decrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) && block.count != Twofish.blockSize {
+            return Array(block)
+        }
+        
         //Input Whitening
         let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
         var b0 = B[0] ^ expandedKey[4]
@@ -463,3 +471,48 @@ extension Twofish {
         return result
     }
 }
+
+extension Twofish : Cipher {
+    public func encrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
+        let chunks = bytes.batched(by: Twofish.blockSize)
+        
+        var oneTimeCryptor = try makeEncryptor()
+        var out = Array<UInt8>(reserveCapacity: bytes.count)
+        for chunk in chunks {
+            out += try oneTimeCryptor.update(withBytes: chunk, isLast: false)
+        }
+        // Padding may be added at the very end
+        out += try oneTimeCryptor.finish()
+        
+        if blockMode.options.contains(.paddingRequired) && (out.count % Twofish.blockSize != 0) {
+            throw Error.dataPaddingRequired
+        }
+        
+        return out
+    }
+    
+    public func decrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
+        if blockMode.options.contains(.paddingRequired) && (bytes.count % Twofish.blockSize != 0) {
+            throw Error.dataPaddingRequired
+        }
+        
+        var oneTimeCryptor = try makeDecryptor()
+        let chunks = bytes.batched(by: Twofish.blockSize)
+        if chunks.isEmpty {
+            throw Error.invalidData
+        }
+        
+        var out = Array<UInt8>(reserveCapacity: bytes.count)
+        
+        var lastIdx = chunks.startIndex
+        chunks.indices.formIndex(&lastIdx, offsetBy: chunks.count - 1)
+        
+        // To properly remove padding, `isLast` has to be known when called with the last chunk of ciphertext
+        // Last chunk of ciphertext may contains padded data so next call to update(..) won't be able to remove it
+        for idx in chunks.indices {
+            out += try oneTimeCryptor.update(withBytes: chunks[idx], isLast: idx == lastIdx)
+        }
+        return out
+    }
+}
+

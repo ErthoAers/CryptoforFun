@@ -51,6 +51,7 @@
 		E9AE9438208594C7004671B3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE9437208594C7004671B3 /* StringExtension.swift */; };
 		E9AE943A20859546004671B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE943920859546004671B3 /* DataExtension.swift */; };
 		E9DBA8152086D08600AE58C1 /* Twofish.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DBA8142086D08600AE58C1 /* Twofish.swift */; };
+		E9DBA8172087A58D00AE58C1 /* TwoCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		E9AE943920859546004671B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		E9AE94B82085C361004671B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E9DBA8142086D08600AE58C1 /* Twofish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twofish.swift; sourceTree = "<group>"; };
+		E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoCryptor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				E9AE93C620844D75004671B3 /* DES.swift */,
 				E9AE93C82084EA13004671B3 /* DESCryptor.swift */,
 				E9DBA8142086D08600AE58C1 /* Twofish.swift */,
+				E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */,
 				E9AE93862084240C004671B3 /* Cipher.swift */,
 				E9AE93872084240C004671B3 /* Cryptors.swift */,
 				E9AE938D2084240C004671B3 /* Generics.swift */,
@@ -405,6 +408,7 @@
 				E9DBA8152086D08600AE58C1 /* Twofish.swift in Sources */,
 				E9AE939A2084240C004671B3 /* AESCryptors.swift in Sources */,
 				E9AE93BC2084274A004671B3 /* PKCS7.swift in Sources */,
+				E9DBA8172087A58D00AE58C1 /* TwoCryptor.swift in Sources */,
 				E9AE93CE20858AA6004671B3 /* MD5.swift in Sources */,
 				E9AE93A72084240C004671B3 /* IntExtension.swift in Sources */,
 				E9AE943A20859546004671B3 /* DataExtension.swift in Sources */,
