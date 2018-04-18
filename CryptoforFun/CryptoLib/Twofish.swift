@@ -43,7 +43,7 @@
  ┌───────────────────────────┘ ╳ └────────────────────────────┐
  │      ┌─────────────────────┘ └──────────────────────┐      │
  ↓      ↓                                              ↓      ↓
- ⊙←K4   ⊙←K5      <- output whitening ->            K6→⊙   →K7⊙
+ ⊙←K4   ⊙←K5          <- output whitening ->        K6→⊙   →K7⊙
  ↓      ↓                                              ↓      ↓
  ┌────────────────────────────────────────────────────────────┐
  │                         C (128 bits)                       │
@@ -388,6 +388,7 @@ private extension Twofish {
 
 extension Twofish {
     internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        //Input Whitening
         let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
         var b0 = B[0] ^ expandedKey[0]
         var b1 = B[1] ^ expandedKey[1]
@@ -401,15 +402,57 @@ extension Twofish {
             b2 = rotateRight(b2, by: 1)
             
             let p2 = (UInt64(G(b01)) + p1) & 0xFFFFFFFF
+            b3 = rotateLeft(b3, by: 1)
             b3 ^= UInt32((p2 + UInt64(expandedKey[2 * i + 9])) & 0xFFFFFFFF)
             
             (b0, b1, b2, b3) = (b2, b3, b0, b1)
         }
         
+        //Undo Last Swap
+        (b0, b1, b2, b3) = (b2, b3, b0, b1)
+        //Output Whitening
         b0 ^= expandedKey[4]
         b1 ^= expandedKey[5]
         b2 ^= expandedKey[6]
         b3 ^= expandedKey[7]
+        
+        var result = Array<UInt8>()
+        result += b0.bytes()[4..<8].reversed()
+        result += b1.bytes()[4..<8].reversed()
+        result += b2.bytes()[4..<8].reversed()
+        result += b3.bytes()[4..<8].reversed()
+        
+        return result
+    }
+    
+    internal func decrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        //Input Whitening
+        let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
+        var b0 = B[0] ^ expandedKey[4]
+        var b1 = B[1] ^ expandedKey[5]
+        var b2 = B[2] ^ expandedKey[6]
+        var b3 = B[3] ^ expandedKey[7]
+        
+        for i in 0..<variantNr {
+            let b01 = rotateLeft(b1, by: 8)
+            let p1 = (UInt64(G(b0)) + UInt64(G(b01))) & 0xFFFFFFFF
+            b2 = rotateRight(b2, by: 1)
+            b2 ^= UInt32((p1 + UInt64(expandedKey[2 * (variantNr - i - 1) + 8])) & 0xFFFFFFFF)
+            
+            let p2 = (UInt64(G(b01)) + p1) & 0xFFFFFFFF
+            b3 ^= UInt32((p2 + UInt64(expandedKey[2 * (variantNr - i - 1) + 9])) & 0xFFFFFFFF)
+            b3 = rotateLeft(b3, by: 1)
+            
+            (b0, b1, b2, b3) = (b2, b3, b0, b1)
+        }
+        
+        //Undo Last Swap
+        (b0, b1, b2, b3) = (b2, b3, b0, b1)
+        //Output Whitening
+        b0 ^= expandedKey[0]
+        b1 ^= expandedKey[1]
+        b2 ^= expandedKey[2]
+        b3 ^= expandedKey[3]
         
         var result = Array<UInt8>()
         result += b0.bytes()[4..<8].reversed()
