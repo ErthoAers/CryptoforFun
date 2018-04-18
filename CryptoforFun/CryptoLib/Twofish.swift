@@ -81,6 +81,14 @@ public final class Twofish {
         }
     }
     
+    let key: Key
+    let blockMode: BlockMode
+    let padding: Padding
+    
+    private lazy var expandedKeyAndSBoxes: (expandedKey: Array<UInt32>, sBox: Array<UInt32>) = self.expandKeyAndSBox(key: self.key)
+    private lazy var expandedKey: Array<UInt32> = self.expandedKeyAndSBoxes.expandedKey
+    private lazy var sBox: Array<UInt32> = self.expandedKeyAndSBoxes.sBox
+    
     lazy var variantNr: Int = self.variant.Nr
     lazy var variantNk: Int = self.variant.Nk
     lazy var variantNb: Int = self.variant.Nb
@@ -88,9 +96,7 @@ public final class Twofish {
     public static let blockSize: Int = 16
     public let keySize: Int
     
-    let key: Key
-    let blockMode: BlockMode
-    let padding: Padding
+    
     
     init(key: Array<UInt8>, blockMode: BlockMode, padding: Padding = .pkcs7) {
         self.key = Key(bytes: key)
@@ -293,6 +299,9 @@ private extension Twofish {
         }
         return p
     }
+    private func G(_ X: UInt32) -> UInt32 {
+        return H(X, sBox)
+    }
     
     private func H(_ X: UInt32, _ L: Array<UInt32>) -> UInt32 {
         var x = Array(X.bytes()[4..<8].reversed())
@@ -374,5 +383,40 @@ private extension Twofish {
         
         return (Array(UnsafeBufferPointer(start: k, count: kLength)),
                 Array(UnsafeBufferPointer(start: S, count: sLength)))
+    }
+}
+
+extension Twofish {
+    internal func encrypt(block: ArraySlice<UInt8>) -> Array<UInt8> {
+        let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
+        var b0 = B[0] ^ expandedKey[0]
+        var b1 = B[1] ^ expandedKey[1]
+        var b2 = B[2] ^ expandedKey[2]
+        var b3 = B[3] ^ expandedKey[3]
+        
+        for i in 0..<variantNr {
+            let b01 = rotateLeft(b1, by: 8)
+            let p1 = (UInt64(G(b0)) + UInt64(G(b01))) & 0xFFFFFFFF
+            b2 ^= UInt32((p1 + UInt64(expandedKey[2 * i + 8])) & 0xFFFFFFFF)
+            b2 = rotateRight(b2, by: 1)
+            
+            let p2 = (UInt64(G(b01)) + p1) & 0xFFFFFFFF
+            b3 ^= UInt32((p2 + UInt64(expandedKey[2 * i + 9])) & 0xFFFFFFFF)
+            
+            (b0, b1, b2, b3) = (b2, b3, b0, b1)
+        }
+        
+        b0 ^= expandedKey[4]
+        b1 ^= expandedKey[5]
+        b2 ^= expandedKey[6]
+        b3 ^= expandedKey[7]
+        
+        var result = Array<UInt8>()
+        result += b0.bytes()[4..<8].reversed()
+        result += b1.bytes()[4..<8].reversed()
+        result += b2.bytes()[4..<8].reversed()
+        result += b3.bytes()[4..<8].reversed()
+        
+        return result
     }
 }
