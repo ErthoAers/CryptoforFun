@@ -1,4 +1,9 @@
 
+import Darwin
+
+public protocol _UInt64Type {}
+extension UInt64: _UInt64Type {}
+
 extension UInt64 {
     init(bits: Array<Bit>) {
         self = integerFrom(bits)
