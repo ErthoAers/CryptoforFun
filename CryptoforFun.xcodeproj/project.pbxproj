@@ -178,25 +178,10 @@
 		E9AE93792084240C004671B3 /* CryptoLib */ = {
 			isa = PBXGroup;
 			children = (
-				E9AE937C2084240C004671B3 /* BlockMode */,
+				E9EB53FD2087AFB9000C3D24 /* GeneralUtils */,
+				E9EB53FC2087AF5B000C3D24 /* Block */,
 				E9AE93CA20858A30004671B3 /* Digest */,
-				E9AE93882084240C004671B3 /* ExtensionTypes */,
-				E9AE938F2084240C004671B3 /* NewTypes */,
-				E9AE93942084240C004671B3 /* Padding */,
 				E9AE93952084240C004671B3 /* PKCS */,
-				E9AE937A2084240C004671B3 /* AES.swift */,
-				E9AE937B2084240C004671B3 /* AESCryptors.swift */,
-				E9AE93C620844D75004671B3 /* DES.swift */,
-				E9AE93C82084EA13004671B3 /* DESCryptor.swift */,
-				E9DBA8142086D08600AE58C1 /* Twofish.swift */,
-				E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */,
-				E9AE93862084240C004671B3 /* Cipher.swift */,
-				E9AE93872084240C004671B3 /* Cryptors.swift */,
-				E9AE938D2084240C004671B3 /* Generics.swift */,
-				E9AE93972084240C004671B3 /* Updatable.swift */,
-				E9AE93982084240C004671B3 /* Utils.swift */,
-				E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */,
-				E9EB53FA2087A9F5000C3D24 /* RC6.swift */,
 			);
 			path = CryptoLib;
 			sourceTree = "<group>";
@@ -247,9 +232,10 @@
 		E9AE93942084240C004671B3 /* Padding */ = {
 			isa = PBXGroup;
 			children = (
-				E9AE93B220842726004671B3 /* NoPadding.swift */,
 				E9AE93B420842726004671B3 /* Padding.swift */,
+				E9AE93B220842726004671B3 /* NoPadding.swift */,
 				E9AE93B320842726004671B3 /* ZeroPadding.swift */,
+				E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */,
 			);
 			path = Padding;
 			sourceTree = "<group>";
@@ -259,7 +245,6 @@
 			children = (
 				E9AE93B820842749004671B3 /* PKCS5.swift */,
 				E9AE93B920842749004671B3 /* PKCS7.swift */,
-				E9AE93BA2084274A004671B3 /* PKCS7Padding.swift */,
 			);
 			path = PKCS;
 			sourceTree = "<group>";
@@ -271,6 +256,37 @@
 				E9AE93CD20858AA6004671B3 /* MD5.swift */,
 			);
 			path = Digest;
+			sourceTree = "<group>";
+		};
+		E9EB53FC2087AF5B000C3D24 /* Block */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE93BE20842E6B004671B3 /* RandomAccessCryptor.swift */,
+				E9AE93862084240C004671B3 /* Cipher.swift */,
+				E9AE93872084240C004671B3 /* Cryptors.swift */,
+				E9AE937A2084240C004671B3 /* AES.swift */,
+				E9AE937B2084240C004671B3 /* AESCryptors.swift */,
+				E9AE93C620844D75004671B3 /* DES.swift */,
+				E9AE93C82084EA13004671B3 /* DESCryptor.swift */,
+				E9EB53FA2087A9F5000C3D24 /* RC6.swift */,
+				E9DBA8142086D08600AE58C1 /* Twofish.swift */,
+				E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */,
+				E9AE93942084240C004671B3 /* Padding */,
+				E9AE937C2084240C004671B3 /* BlockMode */,
+			);
+			path = Block;
+			sourceTree = "<group>";
+		};
+		E9EB53FD2087AFB9000C3D24 /* GeneralUtils */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE938D2084240C004671B3 /* Generics.swift */,
+				E9AE93972084240C004671B3 /* Updatable.swift */,
+				E9AE93982084240C004671B3 /* Utils.swift */,
+				E9AE938F2084240C004671B3 /* NewTypes */,
+				E9AE93882084240C004671B3 /* ExtensionTypes */,
+			);
+			path = GeneralUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
