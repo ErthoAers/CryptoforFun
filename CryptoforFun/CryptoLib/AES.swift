@@ -18,9 +18,9 @@ public final class AES {
         }
     }
     
-    lazy var variantNr: Int = self.variant.Nr
-    lazy var variantNb: Int = self.variant.Nb
-    lazy var variantNk: Int = self.variant.Nk
+    let key: Key
+    let blockMode: BlockMode
+    let padding: Padding
     
     public static let blockSize: Int = 16
     public let keySize: Int
@@ -37,10 +37,11 @@ public final class AES {
             preconditionFailure("Unknown AES variant for given key.")
         }
     }
+    lazy var variantNr: Int = self.variant.Nr
+    lazy var variantNb: Int = self.variant.Nb
+    lazy var variantNk: Int = self.variant.Nk
     
-    let key: Key
-    let blockMode: BlockMode
-    let padding: Padding
+    
     
     private lazy var sBoxes: (sBox: Array<UInt32>, invSBox: Array<UInt32>) = calculateSBox()
     private lazy var sBox: Array<UInt32> = self.sBoxes.sBox

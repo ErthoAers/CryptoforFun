@@ -85,6 +85,9 @@ public final class Twofish {
     let blockMode: BlockMode
     let padding: Padding
     
+    public static let blockSize: Int = 16
+    public let keySize: Int
+    
     private lazy var expandedKeyAndSBoxes: (expandedKey: Array<UInt32>, sBox: Array<UInt32>) = self.expandKeyAndSBox(key: self.key)
     private lazy var expandedKey: Array<UInt32> = self.expandedKeyAndSBoxes.expandedKey
     private lazy var sBox: Array<UInt32> = self.expandedKeyAndSBoxes.sBox
@@ -93,12 +96,7 @@ public final class Twofish {
     lazy var variantNk: Int = self.variant.Nk
     lazy var variantNb: Int = self.variant.Nb
     
-    public static let blockSize: Int = 16
-    public let keySize: Int
-    
-    
-    
-    init(key: Array<UInt8>, blockMode: BlockMode, padding: Padding = .pkcs7) {
+    init(key: Array<UInt8>, blockMode: BlockMode, padding: Padding = .pkcs7) throws {
         self.key = Key(bytes: key)
         self.blockMode = blockMode
         self.keySize = key.count
