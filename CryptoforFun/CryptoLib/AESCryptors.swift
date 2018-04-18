@@ -106,7 +106,7 @@ extension AES {
 }
 
 extension AES : Cryptors {
-    public func makeEncrypter() throws -> AES.Encryptor {
+    public func makeEncryptor() throws -> AES.Encryptor {
         return try AES.Encryptor(aes: self)
     }
     

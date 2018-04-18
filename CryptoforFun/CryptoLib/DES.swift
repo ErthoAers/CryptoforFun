@@ -262,7 +262,7 @@ extension DES : Cipher {
     public func encrypt(_ bytes: ArraySlice<UInt8>) throws -> Array<UInt8> {
         let chunks = bytes.batched(by: DES.blockSize)
         
-        var oneTimeCryptor = try makeEncrypter()
+        var oneTimeCryptor = try makeEncryptor()
         var out = Array<UInt8>(reserveCapacity: bytes.count)
         for chunk in chunks {
             out += try oneTimeCryptor.update(withBytes: chunk, isLast: false)

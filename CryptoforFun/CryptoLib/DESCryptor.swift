@@ -106,7 +106,7 @@ extension DES {
 }
 
 extension DES : Cryptors {
-    public func makeEncrypter() throws -> DES.Encryptor {
+    public func makeEncryptor() throws -> DES.Encryptor {
         return try DES.Encryptor(des: self)
     }
     

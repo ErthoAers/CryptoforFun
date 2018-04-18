@@ -4,7 +4,7 @@ import Darwin
 public protocol Cryptors: class {
     associatedtype EncryptorType: Updatable
     associatedtype DecryptorType: Updatable
-    func makeEncrypter() throws -> EncryptorType
+    func makeEncryptor() throws -> EncryptorType
     func makeDecryptor() throws -> DecryptorType
     static func randomIV(_ blockSize: Int) -> Array<UInt8>
 }
