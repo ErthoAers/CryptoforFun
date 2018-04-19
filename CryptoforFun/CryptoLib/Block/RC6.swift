@@ -59,14 +59,14 @@ private extension RC6 {
         }
         
         s[0] = RC6.P
-        for i in 1..<sLength { s[i] = s[i - 1] + RC6.Q }
+        for i in 1..<sLength { s[i] = s[i - 1] &+ RC6.Q }
         let v = sLength * 3
         
         var a: UInt32 = 0, b: UInt32 = 0, i: Int = 0, j: Int = 0
         for _ in 1..<v {
-            s[i] = rotateLeft((s[i] + a + b), by: 3)
+            s[i] = rotateLeft((s[i] &+ a &+ b), by: 3)
             a = s[i]
-            l[j] = rotateLeft((l[j] + a + b), by: (a + b))
+            l[j] = rotateLeft((l[j] &+ a &+ b), by: (a + b))
             b = l[j]
             i = (i + 1) % sLength
             j = (j + 1) % 4
@@ -83,21 +83,21 @@ extension RC6 {
         }
         let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
         var b0 = B[0]
-        var b1 = B[1] ^ expandedKey[0]
+        var b1 = B[1] &+ expandedKey[0]
         var b2 = B[2]
-        var b3 = B[3] ^ expandedKey[1]
+        var b3 = B[3] &+ expandedKey[1]
         
         var t: UInt32, u: UInt32
         for i in 1...variantNr {
             t = rotateLeft(b1 * (2 * b1 + 1), by: 5)
             u = rotateLeft(b3 * (2 * b3 + 1), by: 5)
-            b0 = rotateLeft(b0 ^ t, by: u) + expandedKey[2 * i]
-            b2 = rotateLeft(b2 ^ u, by: t) + expandedKey[2 * i + 1]
+            b0 = rotateLeft(b0 ^ t, by: u) &+ expandedKey[2 * i]
+            b2 = rotateLeft(b2 ^ u, by: t) &+ expandedKey[2 * i + 1]
             (b0, b1, b2, b3) = (b1, b2, b3, b0)
         }
         
-        b0 += expandedKey[2 * variantNr + 2]
-        b2 += expandedKey[2 * variantNr + 3]
+        b0 = b0 &+ expandedKey[2 * variantNr + 2]
+        b2 = b2 &+ expandedKey[2 * variantNr + 3]
         
         var result = Array<UInt8>()
         result += b0.bytes()[4..<8]
@@ -113,9 +113,9 @@ extension RC6 {
             return Array(block)
         }
         let B = block.batched(by: 4).map {UInt32(bytes: $0, endian: .littleEndian)}
-        var b0 = B[0] - expandedKey[2 * variantNr + 2]
+        var b0 = B[0] &- expandedKey[2 * variantNr + 2]
         var b1 = B[1]
-        var b2 = B[2] - expandedKey[2 * variantNr + 3]
+        var b2 = B[2] &- expandedKey[2 * variantNr + 3]
         var b3 = B[3]
         
         var t: UInt32, u: UInt32
@@ -123,12 +123,12 @@ extension RC6 {
             (b0, b1, b2, b3) = (b1, b2, b3, b0)
             u = rotateLeft(b3 * (2 * b3 + 1), by: 5)
             t = rotateLeft(b1 * (2 * b1 + 1), by: 5)
-            b0 = rotateRight(b0 - expandedKey[2 * i], by: u) ^ t
-            b2 = rotateRight(b2 - expandedKey[2 * i + 1], by: t) ^ u
+            b0 = rotateRight(b0 &- expandedKey[2 * i], by: u) ^ t
+            b2 = rotateRight(b2 &- expandedKey[2 * i + 1], by: t) ^ u
         }
         
-        b0 -= expandedKey[0]
-        b2 -= expandedKey[1]
+        b0 = b0 &- expandedKey[0]
+        b2 = b2 &- expandedKey[1]
         
         var result = Array<UInt8>()
         result += b0.bytes()[4..<8]

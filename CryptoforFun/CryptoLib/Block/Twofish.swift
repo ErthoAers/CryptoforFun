@@ -371,12 +371,12 @@ private extension Twofish {
         
         // 00000001 00000001 00000001 00000001
         let p: UInt32 = 0x01010101
-        var A: UInt64 = 0, B: UInt64 = 0
+        var A: UInt32 = 0, B: UInt32 = 0
         for i in 0..<(kLength / 2) {
-            A = UInt64(H(2 * UInt32(i) * p, Me))
-            B = UInt64(rotateLeft(H((2 * UInt32(i) + 1) * p, Mo), by: 8))
-            k[2 * i] = UInt32((A + B) & 0xFFFFFFFF)
-            k[2 * i + 1] = UInt32(rotateLeft((A + 2 * B) & 0xFFFFFFFF, by: 9))
+            A = H(2 * UInt32(i) &* p, Me)
+            B = rotateLeft(H((2 * UInt32(i) + 1) &* p, Mo), by: 8)
+            k[2 * i] = A &+ B
+            k[2 * i + 1] = rotateLeft(A &+ 2 &* B, by: 9)
         }
         
         return (Array(UnsafeBufferPointer(start: k, count: kLength)),
@@ -399,13 +399,13 @@ extension Twofish {
         
         for i in 0..<variantNr {
             let b01 = rotateLeft(b1, by: 8)
-            let p1 = (UInt64(G(b0)) + UInt64(G(b01))) & 0xFFFFFFFF
-            b2 ^= UInt32((p1 + UInt64(expandedKey[2 * i + 8])) & 0xFFFFFFFF)
+            let p1 = G(b0) &+ G(b01)
+            b2 ^= p1 &+ expandedKey[2 * i + 8]
             b2 = rotateRight(b2, by: 1)
             
-            let p2 = (UInt64(G(b01)) + p1) & 0xFFFFFFFF
+            let p2 = G(b01) &+ p1
             b3 = rotateLeft(b3, by: 1)
-            b3 ^= UInt32((p2 + UInt64(expandedKey[2 * i + 9])) & 0xFFFFFFFF)
+            b3 ^= p2 &+ expandedKey[2 * i + 9]
             
             (b0, b1, b2, b3) = (b2, b3, b0, b1)
         }
@@ -441,12 +441,12 @@ extension Twofish {
         
         for i in 0..<variantNr {
             let b01 = rotateLeft(b1, by: 8)
-            let p1 = (UInt64(G(b0)) + UInt64(G(b01))) & 0xFFFFFFFF
+            let p1 = G(b0) &+ G(b01)
             b2 = rotateRight(b2, by: 1)
-            b2 ^= UInt32((p1 + UInt64(expandedKey[2 * (variantNr - i - 1) + 8])) & 0xFFFFFFFF)
+            b2 ^= p1 &+ expandedKey[2 * (variantNr - i - 1) + 8]
             
-            let p2 = (UInt64(G(b01)) + p1) & 0xFFFFFFFF
-            b3 ^= UInt32((p2 + UInt64(expandedKey[2 * (variantNr - i - 1) + 9])) & 0xFFFFFFFF)
+            let p2 = G(b01) &+ p1
+            b3 ^= p2 &+ expandedKey[2 * (variantNr - i - 1) + 9]
             b3 = rotateLeft(b3, by: 1)
             
             (b0, b1, b2, b3) = (b2, b3, b0, b1)

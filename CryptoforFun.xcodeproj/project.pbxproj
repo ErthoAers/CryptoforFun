@@ -178,6 +178,7 @@
 		E9AE93792084240C004671B3 /* CryptoLib */ = {
 			isa = PBXGroup;
 			children = (
+				E9AE93942084240C004671B3 /* Padding */,
 				E9EB53FD2087AFB9000C3D24 /* GeneralUtils */,
 				E9EB53FC2087AF5B000C3D24 /* Block */,
 				E9AE93CA20858A30004671B3 /* Digest */,
@@ -271,7 +272,6 @@
 				E9EB53FA2087A9F5000C3D24 /* RC6.swift */,
 				E9DBA8142086D08600AE58C1 /* Twofish.swift */,
 				E9DBA8162087A58D00AE58C1 /* TwoCryptor.swift */,
-				E9AE93942084240C004671B3 /* Padding */,
 				E9AE937C2084240C004671B3 /* BlockMode */,
 			);
 			path = Block;
