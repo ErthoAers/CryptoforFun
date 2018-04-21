@@ -1,9 +1,5 @@
 
-@_transparent
-func carryAdd(_ lhs: UInt8, _ rhs: UInt8, flag: UInt8) -> (UInt8, UInt8) {
-    let tmp = UInt16(lhs) + UInt16(rhs) + UInt16(flag)
-    return (UInt8(tmp & 0x00FF), UInt8((tmp & 0xFF00) >> 8))
-}
+
 
 struct Bignum {
     var d = Array<UInt8>()
@@ -51,13 +47,23 @@ extension Bignum {
     }
     
     private static func positiveAdd(_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
-        var flag: UInt8 = 0, tmp: UInt8
-        var result = Bignum()
-        var dl = lhs.d, dr = rhs.d
-        let count = max(dl.count, dr.count)
+        @_transparent
+        func carryAdd(_ lhs: UInt8, _ rhs: UInt8, flag: UInt8) -> (UInt8, UInt8) {
+            let tmp = UInt16(lhs) + UInt16(rhs) + UInt16(flag)
+            return (UInt8(tmp & 0x00FF), UInt8((tmp & 0xFF00) >> 8))
+        }
         
-        if dl.count > dr.count { dr += Array<UInt8>.init(repeating: 0, count: count - dr.count) }
-        else { dl += Array<UInt8>.init(repeating: 0, count: count - dl.count) }
+        var result = Bignum()
+        var flag: UInt8 = 0, tmp: UInt8
+        let count = max(lhs.d.count, rhs.d.count)
+        
+        let (dr, dl): ([UInt8], [UInt8]) = { () -> ([UInt8], [UInt8]) in
+            if lhs.dmax > rhs.dmax {
+                return (rhs.d + Array<UInt8>.init(repeating: 0, count: count - rhs.dmax), lhs.d)
+            } else {
+                return (rhs.d, lhs.d + Array<UInt8>.init(repeating: 0, count: count - lhs.dmax))
+            }
+        }()
         
         for idx in 0..<count{
             (tmp, flag) = carryAdd(dl[idx], dr[idx], flag: flag)
@@ -69,18 +75,44 @@ extension Bignum {
     }
     
     private static func positiveSub(_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
-        return lhs
+        @_transparent
+        func carrySub(_ lhs: UInt8, _ rhs: UInt8, flag: UInt8) -> (UInt8, UInt8) {
+            let tmp = lhs &- rhs &- flag
+            return (UInt8(tmp & 0x00FF), UInt8(tmp))
+        }
+        
+        var result = Bignum()
+        var flag: UInt8 = 0, tmp: UInt8
+        let count = max(lhs.d.count, rhs.d.count)
+        
+        let (dr, dl): ([UInt8], [UInt8]) = { () -> ([UInt8], [UInt8]) in
+            if lhs.dmax > rhs.dmax {
+                return (rhs.d + Array<UInt8>.init(repeating: 0, count: count - rhs.dmax), lhs.d)
+            } else {
+                return (rhs.d, lhs.d + Array<UInt8>.init(repeating: 0, count: count - lhs.dmax))
+            }
+        }()
+        
+        for idx in 0..<count{
+            (tmp, flag) = carrySub(dl[idx], dr[idx], flag: flag)
+            result.d.append(tmp)
+        }
+        
+        if flag != 0 { result.d.append(flag) }
+        return result
+    }
+    
+    public static prefix func - (_ operand: Bignum) -> Bignum {
+        var result = operand
+        result.neg = !result.neg
+        return result
     }
     
     public static func + (_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
         if lhs.neg && rhs.neg {
-            var result = positiveAdd(lhs, rhs)
-            result.neg = true
-            return result
+            return -positiveAdd(lhs, rhs)
         } else if lhs.neg && !rhs.neg {
-            var result = positiveSub(lhs, rhs)
-            result.neg = !result.neg
-            return result
+            return -positiveSub(lhs, rhs)
         } else if !lhs.neg && rhs.neg {
             return positiveSub(lhs, rhs)
         } else {
@@ -89,6 +121,14 @@ extension Bignum {
     }
     
     public static func - (_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
-        return lhs
+        if lhs.neg && rhs.neg {
+            return -positiveSub(lhs, rhs)
+        } else if lhs.neg && !rhs.neg {
+            return -positiveAdd(lhs, rhs)
+        } else if !lhs.neg && rhs.neg {
+            return positiveAdd(lhs, rhs)
+        } else {
+            return positiveSub(lhs, rhs)
+        }
     }
 }
