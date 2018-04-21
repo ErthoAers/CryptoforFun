@@ -312,6 +312,9 @@ private extension AES {
         result |= UInt32(B1(AES.T0[Int(x3 >> 24)])) << 24
         return result
     }
+}
+
+private extension AES {
     
     private func expandKeyInv(_ key: Key) -> Array<Array<UInt32>> {
         var result: Array<Array<UInt32>> = expandKey(key)

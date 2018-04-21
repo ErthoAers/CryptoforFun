@@ -297,6 +297,7 @@ private extension Twofish {
         }
         return p
     }
+    
     private func G(_ X: UInt32) -> UInt32 {
         return H(X, sBox)
     }
