@@ -1,24 +1,32 @@
 
-
+@_transparent
+func carryAdd(_ lhs: UInt32, _ rhs: UInt32, flag: UInt32) -> (UInt32, UInt32) {
+    let tmp = UInt64(lhs) + UInt64(rhs) + UInt64(flag)
+    return (UInt32(tmp & 0x00000000FFFFFFFF), UInt32((tmp & 0xFFFFFFFF00000000) >> 8))
+}
 
 struct Bignum {
-    var d = Array<UInt8>()
-    var dmax: Int {
+    var d = Array<UInt32>()
+    var count: Int {
         return d.count
     }
     var neg: Bool = false
+    
+    
 }
 
 extension Bignum {
     public init(hex: String) {
-        var buffer: UInt8? = (hex.count % 2 == 0) ? nil : 0
-        var skip = hex.hasPrefix("0x") ? 2 : 0
-        for char in hex.unicodeScalars.lazy {
-            guard skip == 0 else { skip -= 1; continue }
+        var buffer: UInt32 = 0
+        var h: String = (hex.hasPrefix("0x") ? String(hex[hex.index(hex.startIndex, offsetBy: 2)..<hex.endIndex]) : hex)
+        h = String(repeating: "0", count: (8 - (h.count % 8)) % 8) + h
+        var i: Int = 0
+        for char in h.unicodeScalars.lazy {
+            i += 1
             guard char.value >= 48 && char.value <= 102 else { d.removeAll(); return }
             
-            let v: UInt8
-            let c: UInt8 = UInt8(char.value)
+            let v: UInt32
+            let c: UInt32 = UInt32(char.value)
             switch c {
             case let c where c <= 57:
                 v = c - 48
@@ -30,11 +38,12 @@ extension Bignum {
                 d.removeAll()
                 return
             }
-            if let b = buffer {
-                d.append(b << 4 | v)
-                buffer = nil
-            } else {
-                buffer = v
+            buffer <<= 4
+            buffer |= v
+            if i == 8 {
+                d.append(buffer)
+                buffer = 0
+                i = 0
             }
         }
         d = d.reversed()
@@ -42,31 +51,49 @@ extension Bignum {
     
     public func toHexString() -> String {
         return "0x" + d.reversed().reduce("") {
-            return $0 + String(format: "%02X", $1)
+            return $0 + String(format: "%08X", $1)
         }
     }
     
-    private static func positiveAdd(_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
-        @_transparent
-        func carryAdd(_ lhs: UInt8, _ rhs: UInt8, flag: UInt8) -> (UInt8, UInt8) {
-            let tmp = UInt16(lhs) + UInt16(rhs) + UInt16(flag)
-            return (UInt8(tmp & 0x00FF), UInt8((tmp & 0xFF00) >> 8))
+    public static func == (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        for i in 0..<lhs.count { guard lhs.d[i] == rhs.d[i] else { return false } }
+        return true
+    }
+    
+    public static func != (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        return !(lhs == rhs)
+    }
+    
+    public static func >= (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        if lhs.count > rhs.count { return true }
+        if lhs.count < rhs.count { return false }
+        for i in (0...(lhs.count - 1)).reversed() {
+            if lhs.d[i] > rhs.d[i] { return true }
+            if lhs.d[i] < rhs.d[i] { return false }
         }
-        
+        return true
+    }
+    
+    public static func > (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        return (lhs >= rhs) && (lhs != rhs)
+    }
+    
+    public static func <= (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        return !(lhs > rhs)
+    }
+    
+    public static func < (_ lhs: Bignum, _ rhs: Bignum) -> Bool {
+        return !(lhs >= rhs)
+    }
+    
+    private static func positiveAdd(_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
         var result = Bignum()
-        var flag: UInt8 = 0, tmp: UInt8
-        let count = max(lhs.d.count, rhs.d.count)
+        var flag: UInt32 = 0, tmp: UInt32
+        let count = max(lhs.count, rhs.count)
         
-        let (dr, dl): ([UInt8], [UInt8]) = { () -> ([UInt8], [UInt8]) in
-            if lhs.dmax > rhs.dmax {
-                return (rhs.d + Array<UInt8>.init(repeating: 0, count: count - rhs.dmax), lhs.d)
-            } else {
-                return (rhs.d, lhs.d + Array<UInt8>.init(repeating: 0, count: count - lhs.dmax))
-            }
-        }()
-        
-        for idx in 0..<count{
-            (tmp, flag) = carryAdd(dl[idx], dr[idx], flag: flag)
+        for idx in 0..<count {
+            (tmp, flag) = carryAdd(idx < lhs.count ? lhs.d[idx] : 0, idx < rhs.count ? rhs.d[idx] : 0, flag: flag)
             result.d.append(tmp)
         }
         
@@ -75,30 +102,18 @@ extension Bignum {
     }
     
     private static func positiveSub(_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
-        @_transparent
-        func carrySub(_ lhs: UInt8, _ rhs: UInt8, flag: UInt8) -> (UInt8, UInt8) {
-            let tmp = lhs &- rhs &- flag
-            return (UInt8(tmp & 0x00FF), UInt8(tmp))
-        }
+        if (lhs <= rhs) { return -positiveSub(rhs, lhs) }
         
         var result = Bignum()
-        var flag: UInt8 = 0, tmp: UInt8
-        let count = max(lhs.d.count, rhs.d.count)
+        var flag: UInt32 = 0, tmp: UInt32
+        let count = max(lhs.count, rhs.count)
         
-        let (dr, dl): ([UInt8], [UInt8]) = { () -> ([UInt8], [UInt8]) in
-            if lhs.dmax > rhs.dmax {
-                return (rhs.d + Array<UInt8>.init(repeating: 0, count: count - rhs.dmax), lhs.d)
-            } else {
-                return (rhs.d, lhs.d + Array<UInt8>.init(repeating: 0, count: count - lhs.dmax))
-            }
-        }()
-        
-        for idx in 0..<count{
-            (tmp, flag) = carrySub(dl[idx], dr[idx], flag: flag)
+        for idx in 0..<count {
+            (tmp, flag) = carryAdd(idx < lhs.count ? lhs.d[idx] : 0, idx < rhs.count ? (~rhs.d[idx] &+ 1) : 0, flag: ~flag &+ 1)
+            flag = (flag == 0) ? 1 : 0
             result.d.append(tmp)
         }
         
-        if flag != 0 { result.d.append(flag) }
         return result
     }
     
@@ -130,5 +145,10 @@ extension Bignum {
         } else {
             return positiveSub(lhs, rhs)
         }
+    }
+    
+    public static func * (_ lhs: Bignum, _ rhs: Bignum) -> Bignum {
+        
+        return lhs
     }
 }
